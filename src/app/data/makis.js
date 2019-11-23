@@ -17,8 +17,8 @@ export const makis = [
   {
     id: 2,
     nom: 'avocat',
-    prix: 1,
-    description: 'un magnifique maki au avocat',
+    prix: 1.0,
+    description: 'un magnifique maki a l\'avocat',
     image: 'http://fushisushi.com/uploads/48.jpg',
   },
   {
@@ -32,7 +32,7 @@ export const makis = [
     id: 4,
     nom: 'omlette',
     prix: 0.8,
-    description: 'un magnifique maki au omlet',
+    description: 'un magnifique maki a l\'omlet',
     image: 'http://www.koni-sushi.fr/img_s1/88805/boutique/545d282f219dd5c.jpg',
   },
 ];

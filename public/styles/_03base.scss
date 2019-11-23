@@ -1,11 +1,48 @@
+
+//   ****************   GLOBAL   ************************
 .container{
     width: 1200px;
     margin: 0 auto;
-    display: flex;
+    padding: 0 auto;
+    // display: flex;
+}
+
+h1,h2{
+	padding-left: 3rem;
+}
+img{
+	height: 10vh;
+	width: 12vw;
+	}			
+
+
+//   ****************   HEADER   ************************
+
+
+
+
+//   *************   SUSHI LIST   ************************
+.sushiList{
+	display: flex;
+
+		.sushiImg{
+			display: flex;
+			align-items: center;
+    }
+
 }
 
 
-img{
-    height: 10vh;
-    width: 10vw;
+
+//   ****************   FOOTER   ************************
+footer{
+    border: 1px solid black;
+    margin-top: 10rem;
+		min-height: 10rem;
+		padding-left: 3rem;
+}
+
+#btnCom {
+    display: none;
+    margin: 1rem;
 }
