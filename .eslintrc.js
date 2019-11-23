@@ -20,6 +20,7 @@ module.exports = {
     'key-spacing':0,
     'indent' :0,
     'no-trailing-spaces':0,
+    'no-const-assign':0,
 
 
     'no-restricted-syntax': 0,
