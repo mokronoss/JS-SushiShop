@@ -13,16 +13,32 @@ h2.innerText = 'Promotion du jour';
 
 //add random maki to header
 // random list added
-const randomMaki = makis[random(makis.length)];
-header.innerHTML = `
-	<h2>Offre du jour</h2>
-	<figure>
-		<img src="${randomMaki.image}" />
-	</figure>
-	<h3>${randomMaki.description}</h3>
-	<h5>prix par boite : ${randomMaki.prix * 8}&euro;</h5>
-`;
+//TODO Fetch not working
+fetch('/data/makis.json')
+  .then((reponse) => reponse.json())
+  .then((data) => {
+    const makis2 = data.makis2;
+	const randomMaki = makis2[random(makis2.length)];
+	header.innerHTML = `
+		<h2>Offre du jour</h2>
+		<figure>
+			<img src="${randomMaki.image}" />
+		</figure>
+		<h3>${randomMaki.description}</h3>
+		<h5>prix par boite : ${randomMaki.prix * 8}&euro;</h5>
+	`;
+  });
 
+// // added by file maki.js
+//   const randomMaki = makis[random(makis.length)];
+// 	header.innerHTML = `
+// 		<h2>Offre du jour</h2>
+// 		<figure>
+// 			<img src="${randomMaki.image}" />
+// 		</figure>
+// 		<h3>${randomMaki.description}</h3>
+// 		<h5>prix par boite : ${randomMaki.prix * 8}&euro;</h5>
+// 	`;
 
 app.appendChild(header);
 
@@ -30,7 +46,7 @@ app.appendChild(header);
 //   ****************   SECTION   ************************
 
 const h1 = document.createElement('h1');
-h1.innerText = 'les meilleurs maki a Bruxelles';
+h1.innerText = 'les meilleurs makis a Bruxelles';
 app.appendChild(h1);
 
 const sectionDemo = document.createElement('section');
@@ -72,7 +88,7 @@ for (const maki of makis) {
 	btnA.setAttribute('type', 'submit');
 
 
-	//   --------------  ACTION ON CLICK  ---------------------
+	//   --------------  ACTION ON CLICK ACHETER ---------------------
 	btnA.addEventListener('click', function () {
 		const parent = this.parentNode;
 		const name = parent.getElementsByTagName('h4')[0].innerHTML;
@@ -83,24 +99,37 @@ for (const maki of makis) {
 
 		const list = document.getElementById('orders_list');
 		const newListItem = document.createElement('li');
+		newListItem.setAttribute('type', 'checkbox');
 		newListItem.innerHTML = `${name} - <span>${price}</span>`;
 		list.appendChild(newListItem);
+		
+		//   -------------- BONUS  REMOVE FROM LIST ---------------------
+		// newListItem.addEventListener('change', function (event) {
+		// 	event.target.newListItem.reduce;
+		// });
 
 		let summaryPrice = 0;
+
 		const prices = list.getElementsByTagName('span');
 		for (let i = 0; i < prices.length; i++) {
 			let onePrice = prices[i].innerHTML;
 			onePrice = parseFloat(onePrice);
 			summaryPrice += onePrice;
 			//   -------------- BONUS REDUCTION appel plus bas---------------------
-			if (summaryPrice > 12) {
-				const reduction = summaryPrice * 0.8;
+			if (summaryPrice > 50) {
+				let reduction = summaryPrice * 0.8;
+				//to set decimal number in place of Math.round(summaryPrice * 100) / 100;
+				reduction = reduction.toFixed(2);
 				document.getElementById('reduction').innerHTML = `Prix apres reduction: ${reduction}&euro;`;
 			}
 		}
+		//to set decimal number 
+		summaryPrice = Math.round(summaryPrice * 100) / 100;
+		
+
 		document.getElementById('summaryPrice').innerHTML = `Prix du panier: ${summaryPrice}&euro;`;
 		//TODO debloquer avant envoyer a Loic
-		//alert(' vous avez ajouter une boite au panier');
+		//alert(' Vous avez ajouté une boite au panier. Continuez les courses. Pour le panier superieur a 50€, 20% de r€duction vous attend');
 		document.getElementById('btnCom').style.display = 'block';
 	});
 
@@ -129,6 +158,8 @@ const reduction = document.createElement('h2');
 reduction.id = 'reduction';
 footer.appendChild(reduction);
 
+
+// 
 const btnCom = document.createElement('button');
 btnCom.id = 'btnCom';
 btnCom.type = 'submit';
@@ -136,3 +167,13 @@ btnCom.innerHTML = 'Commander';
 footer.appendChild(btnCom);
 
 app.appendChild(footer);
+
+//   -------------- ON CLICK COMMANDER CLEAR WEBSITE ---------------------
+btnCom.addEventListener('click', function (e) {
+	e.preventDefault();
+	const nrBoite = localStorage.setItem();
+	app.innerHTML = '';
+	const h2II = document.createElement('h2');
+	h2II.innerText = 'Votre commande est en cours de livraison. Elle arrivera dans `x` minutes';
+	app.appendChild(h2II);
+});
