@@ -23,7 +23,7 @@ export const makis = [
   },
   {
     id: 3,
-    nom: 'cooncombre',
+    nom: 'concombre',
     prix: 0.8,
     description: 'un magnifique maki au concombre',
     image: 'http://neo-samourai.fr/wp-content/uploads/2016/02/maki-concombre.png',

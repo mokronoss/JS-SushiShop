@@ -1,13 +1,13 @@
 
 //   ****************   GLOBAL   ************************
 .container{
-    width: 1200px;
+    width: 1000px;
     margin: 0 auto;
     padding: 0 auto;
     // display: flex;
 }
 
-h1,h2{
+h1{
 	padding-left: 3rem;
 }
 img{
@@ -18,7 +18,9 @@ img{
 
 //   ****************   HEADER   ************************
 
-
+header{
+	padding-left: 3rem;
+}
 
 
 //   *************   SUSHI LIST   ************************

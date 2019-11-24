@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import { makis } from './app/data/makis';
 import { random } from './app/data/functionsG';
 
@@ -13,8 +14,8 @@ h2.innerText = 'Promotion du jour';
 
 //add random maki to header
 // random list added
-//TODO Fetch not working
-fetch('/data/makis.json')
+//TODO img not working
+fetch('assets/data/makis.json')
   .then((reponse) => reponse.json())
   .then((data) => {
     const makis2 = data.makis2;
@@ -54,7 +55,7 @@ const divDemo = document.createElement('div');
 sectionDemo.appendChild(divDemo);
 app.appendChild(sectionDemo);
 
-
+let count = 0;
 //   -------------- LOOP FOR OBJECT/ARRAY ---------------------
 for (const maki of makis) {
 	const divM = document.createElement('div');
@@ -90,6 +91,7 @@ for (const maki of makis) {
 
 	//   --------------  ACTION ON CLICK ACHETER ---------------------
 	btnA.addEventListener('click', function () {
+		// this.parentNode; appel a la meme div parent
 		const parent = this.parentNode;
 		const name = parent.getElementsByTagName('h4')[0].innerHTML;
 		let price = parent.getElementsByTagName('h5')[0].innerHTML;
@@ -99,14 +101,24 @@ for (const maki of makis) {
 
 		const list = document.getElementById('orders_list');
 		const newListItem = document.createElement('li');
-		newListItem.setAttribute('type', 'checkbox');
-		newListItem.innerHTML = `${name} - <span>${price}</span>`;
-		list.appendChild(newListItem);
-		
+
 		//   -------------- BONUS  REMOVE FROM LIST ---------------------
-		// newListItem.addEventListener('change', function (event) {
-		// 	event.target.newListItem.reduce;
-		// });
+		const btnS = document.createElement('button');
+		btnS.innerHTML = 'Supprimer';
+		btnS.setAttribute('type', 'submit');
+
+		//outherHTML takes everything with the tag , inner only interior <button id='btnS'>Supprimer</button>
+		newListItem.innerHTML = `${name} - <span>${price}</span>  - ${btnS.outerHTML}`;
+
+		// TODO add event listener
+		btnS.addEventListener('click', function () {		
+			console.log('testB');
+		});
+
+
+		list.appendChild(newListItem);
+		count += $(newListItem).length;
+
 
 		let summaryPrice = 0;
 
@@ -149,6 +161,7 @@ const orders_list = document.createElement('ul');
 orders_list.id = 'orders_list';
 footer.appendChild(orders_list);
 
+
 const summaryPrice = document.createElement('h2');
 summaryPrice.id = 'summaryPrice';
 footer.appendChild(summaryPrice);
@@ -168,12 +181,16 @@ footer.appendChild(btnCom);
 
 app.appendChild(footer);
 
-//   -------------- ON CLICK COMMANDER CLEAR WEBSITE ---------------------
-btnCom.addEventListener('click', function (e) {
+
+// -------------- ON CLICK COMMANDER CLEAR WEBSITE ---------------------
+
+$(btnCom).on('click', function (e) {
 	e.preventDefault();
-	const nrBoite = localStorage.setItem();
-	app.innerHTML = '';
-	const h2II = document.createElement('h2');
-	h2II.innerText = 'Votre commande est en cours de livraison. Elle arrivera dans `x` minutes';
-	app.appendChild(h2II);
+	//call count from counting list li new items
+	localStorage.setItem('nrBox', count);
+	$(app).empty();
+	const nrBox = localStorage.getItem('nrBox');
+	console.log(nrBox);
+	$(app).text(`Votre commande est en cours de livraison. Elle arrivera dans  ${nrBox * 6} minute`).css({ 'font-size' : '2rem' });
+	localStorage.clear();
 });
