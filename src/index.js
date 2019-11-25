@@ -106,12 +106,17 @@ for (const maki of makis) {
 		const btnS = document.createElement('button');
 		btnS.innerHTML = 'Supprimer';
 		btnS.setAttribute('type', 'submit');
+		btnS.id = `supprimer${name}`;
 
+		//   --------------  CREATE THE LIST + BUTTON SUPPRIMER ---------------------
 		//outherHTML takes everything with the tag , inner only interior <button id='btnS'>Supprimer</button>
-		newListItem.innerHTML = `${name} - <span>${price}</span>  - ${btnS.outerHTML}`;
+		newListItem.innerHTML = `${name} - <span>${price}</span>  -`;
+		//
+		newListItem.appendChild(btnS);
 
-		// TODO add event listener
-		btnS.addEventListener('click', function () {		
+		// TODO add event listener to SUPPRIMER
+		btnS.addEventListener('click', function (e) {
+			e.preventDefault;		
 			console.log('testB');
 		});
 
@@ -182,15 +187,25 @@ footer.appendChild(btnCom);
 app.appendChild(footer);
 
 
-// -------------- ON CLICK COMMANDER CLEAR WEBSITE ---------------------
+// -------------- ON CLICK COMMANDER CLEAR WEBSITE by local storage  ---------------------
 
+// $(btnCom).on('click', function (e) {
+// 	e.preventDefault();
+// 	//call count from counting list li new items
+// 	localStorage.setItem('nrBox', count);
+// 	$(app).empty();
+// 	const nrBox = localStorage.getItem('nrBox');
+// 	console.log(nrBox);
+// 	$(app).text(`Votre commande est en cours de livraison. 
+// 	Elle arrivera dans  ${nrBox * 6} minute`).css({ 'font-size' : '2rem' });
+// 	localStorage.clear();
+// });
+
+// -------------- ON CLICK COMMANDER HIDE WEBSITE by variable  ---------------------
 $(btnCom).on('click', function (e) {
 	e.preventDefault();
-	//call count from counting list li new items
-	localStorage.setItem('nrBox', count);
-	$(app).empty();
-	const nrBox = localStorage.getItem('nrBox');
-	console.log(nrBox);
-	$(app).text(`Votre commande est en cours de livraison. Elle arrivera dans  ${nrBox * 6} minute`).css({ 'font-size' : '2rem' });
-	localStorage.clear();
+	$(app).hide();
+	const nrBox = count;
+	$('body').text(`Votre commande est en cours de livraison. 
+	Elle arrivera dans  ${nrBox * 6} minute`).css({ 'font-size' : '2rem' });
 });
