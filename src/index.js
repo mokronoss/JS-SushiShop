@@ -14,7 +14,6 @@ h2.innerText = 'Promotion du jour';
 
 //add random maki to header
 // random list added
-//TODO img not working
 fetch('assets/data/makis.json')
   .then((reponse) => reponse.json())
   .then((data) => {
@@ -78,6 +77,13 @@ for (const maki of makis) {
 
 	const h4 = document.createElement('h4');
 	h4.innerText = maki.nom;
+
+	//   -------------- BONUS  VEG GREEN BIRDER ---------------------
+	if(h4.innerHTML === "thon" || h4.innerHTML === "saumon"){
+		console.log('test');
+		divDes.style.border = "0px";
+	}
+
 	divDes.appendChild(h4);
 
 	const h5 = document.createElement('h5');
@@ -87,12 +93,13 @@ for (const maki of makis) {
 	const btnA = document.createElement('button');
 	btnA.innerHTML = 'Acheter';
 	btnA.setAttribute('type', 'submit');
+	btnA.id = `buttonA${maki.nom}`;
 
 
 	//   --------------  ACTION ON CLICK ACHETER ---------------------
 	btnA.addEventListener('click', function () {
 		// this.parentNode; appel a la meme div parent
-		const parent = this.parentNode;
+		const parent = btnA.parentNode;
 		const name = parent.getElementsByTagName('h4')[0].innerHTML;
 		let price = parent.getElementsByTagName('h5')[0].innerHTML;
 		// regular expression
@@ -102,7 +109,7 @@ for (const maki of makis) {
 		const list = document.getElementById('orders_list');
 		const newListItem = document.createElement('li');
 
-		//   -------------- BONUS  REMOVE FROM LIST ---------------------
+		//   --------------  REMOVE FROM LIST ---------------------------
 		const btnS = document.createElement('button');
 		btnS.innerHTML = 'Supprimer';
 		btnS.setAttribute('type', 'submit');
@@ -111,13 +118,14 @@ for (const maki of makis) {
 		//   --------------  CREATE THE LIST + BUTTON SUPPRIMER ---------------------
 		//outherHTML takes everything with the tag , inner only interior <button id='btnS'>Supprimer</button>
 		newListItem.innerHTML = `${name} - <span>${price}</span>  -`;
-		//
+		//added seperatly to allow creation of button not of html
 		newListItem.appendChild(btnS);
 
-		// TODO add event listener to SUPPRIMER
+		// add event listener to SUPPRIMER
 		btnS.addEventListener('click', function (e) {
-			e.preventDefault;		
-			console.log('testB');
+			e.preventDefault;	
+			list.removeChild(newListItem);
+			count -= $(newListItem).length;
 		});
 
 
@@ -146,7 +154,9 @@ for (const maki of makis) {
 
 		document.getElementById('summaryPrice').innerHTML = `Prix du panier: ${summaryPrice}&euro;`;
 		//TODO debloquer avant envoyer a Loic
-		//alert(' Vous avez ajouté une boite au panier. Continuez les courses. Pour le panier superieur a 50€, 20% de r€duction vous attend');
+		//alert(' Vous avez ajouté une boite au panier. Continuez les courses. Pour le panier superieur a 50€, 20% de reduction vous attend');
+		//in css btn is set to display: none; it's on click that it's appears => style.display = 'block';
+		document.getElementById('btnVid').style.display = 'block';
 		document.getElementById('btnCom').style.display = 'block';
 	});
 
@@ -176,8 +186,14 @@ const reduction = document.createElement('h2');
 reduction.id = 'reduction';
 footer.appendChild(reduction);
 
+//   -------------- BONUS BUTTON VIDER CREATION ---------------
+const btnVid= document.createElement('button');
+btnVid.id = 'btnVid';
+btnVid.type = 'submit';
+btnVid.innerHTML = 'ViderPanier';
+footer.appendChild(btnVid);
 
-// 
+//   -------------- BUTTON COMMANDER CREATION ---------------------
 const btnCom = document.createElement('button');
 btnCom.id = 'btnCom';
 btnCom.type = 'submit';
@@ -208,4 +224,11 @@ $(btnCom).on('click', function (e) {
 	const nrBox = count;
 	$('body').text(`Votre commande est en cours de livraison. 
 	Elle arrivera dans  ${nrBox * 6} minute`).css({ 'font-size' : '2rem' });
+});
+
+// -------------- BONSU ON CLICK VIDER WEBSITE by variable  ---------------------
+$(btnVid).on('click', function (e) {
+	e.preventDefault();
+	$(orders_list).empty();
+	document.getElementById('summaryPrice').innerHTML = `Prix du panier: 0&euro;`;
 });

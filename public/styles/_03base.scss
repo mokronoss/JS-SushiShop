@@ -26,11 +26,18 @@ header{
 //   *************   SUSHI LIST   ************************
 .sushiList{
 	display: flex;
+	margin-bottom: 1rem;;
+	
 
 		.sushiImg{
 			display: flex;
 			align-items: center;
-    }
+	}
+	.sushiDes{
+		border: 1px solid green;
+		min-width: 30%;
+		padding: 1rem;
+	}
 
 }
 
@@ -45,6 +52,11 @@ footer{
 }
 
 #btnCom {
+    display: none;
+    margin: 1rem;
+}
+
+#btnVid {
     display: none;
     margin: 1rem;
 }
